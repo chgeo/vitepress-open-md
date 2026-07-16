@@ -188,7 +188,7 @@ async function openInBrowserWithReuse(url: string, baseUrl: string, browserApp: 
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const disposable = vscode.commands.registerCommand('vitepressOpenCurrent.openCurrent', async () => {
+  const disposable = vscode.commands.registerCommand('vitepressMd.openCurrent', async () => {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {
@@ -202,7 +202,7 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const cfg = vscode.workspace.getConfiguration('vitepressOpenCurrent');
+    const cfg = vscode.workspace.getConfiguration('vitepressMd');
     const baseUrl = cfg.get<string>('baseUrl') ?? 'http://localhost:5173';
     const rootFolder = cfg.get<string>('rootFolder') ?? 'docs';
     const browserApp = cfg.get<string>('browserApp') ?? 'Google Chrome';

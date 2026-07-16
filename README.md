@@ -12,7 +12,7 @@ Open the currently active Markdown file in your running VitePress dev server.
 ## Command
 
 - Command title: Open VitePress Markdown in Browser
-- Command ID: vitepressOpenCurrent.openCurrent
+- Command ID: vitepressMd.openCurrent
 
 Run it from:
 
@@ -23,16 +23,16 @@ Run it from:
 
 This extension contributes the following settings:
 
-- vitepressOpenCurrent.baseUrl
+- vitepressMd.baseUrl
   - Default: http://localhost:5173
   - Base URL of your running VitePress dev server.
-- vitepressOpenCurrent.rootFolder
+- vitepressMd.rootFolder
   - Default: docs
   - Workspace folder containing your VitePress root.
-- vitepressOpenCurrent.browserApp
+- vitepressMd.browserApp
   - Default: Google Chrome
   - macOS app name used to open/reuse browser tabs.
-- vitepressOpenCurrent.anchor
+- vitepressMd.anchor
   - Default: (empty)
   - Optional hash fragment to append, for example: installation
 
