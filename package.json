@@ -1,0 +1,76 @@
+{
+  "name": "vitepress-open-current",
+  "publisher": "your-publisher-id",
+  "displayName": "VitePress Open Current",
+  "description": "Open the currently active Markdown file in the running VitePress dev server.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "vitepress",
+    "markdown",
+    "browser",
+    "documentation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chgeo/vitepress-open-current.git"
+  },
+  "homepage": "https://github.com/chgeo/vitepress-open-current#readme",
+  "bugs": {
+    "url": "https://github.com/chgeo/vitepress-open-current/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vitepressOpenCurrent.openCurrent",
+        "title": "Open VitePress Markdown in Browser"
+      }
+    ],
+    "configuration": {
+      "title": "VitePress Open Current",
+      "properties": {
+        "vitepressOpenCurrent.baseUrl": {
+          "type": "string",
+          "default": "http://localhost:5173",
+          "description": "Base URL of the running VitePress dev server."
+        },
+        "vitepressOpenCurrent.rootFolder": {
+          "type": "string",
+          "default": "docs",
+          "description": "Workspace folder that contains the VitePress root."
+        },
+        "vitepressOpenCurrent.browserApp": {
+          "type": "string",
+          "default": "Google Chrome",
+          "description": "macOS external browser app for tab reuse. Use Google Chrome, Safari, or another Chrome-family app name."
+        },
+        "vitepressOpenCurrent.anchor": {
+          "type": "string",
+          "default": "",
+          "description": "Optional anchor to append, e.g. installation"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "open": "^11.0.0"
+  }
+}
