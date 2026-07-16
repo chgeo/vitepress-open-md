@@ -1,18 +1,18 @@
-# VitePress Open MD
+# VitePress Open Markdown
 
-Open the currently active Markdown file in your running VitePress dev server.
+VS Code extension to open the currently active markdown file in your running [VitePress](https://vitepress.dev/) dev server.
 
 ## Features
 
-- Adds a command to open the active Markdown file in your browser.
+- Adds a command to open the active markdown file in your browser.
 - Converts workspace file paths to the matching VitePress route.
 - Supports an optional anchor fragment.
 - Supports configuring the target browser app on macOS.
 
 ## Command
 
-- Command title: Open VitePress Markdown in Browser
-- Command ID: vitepressMd.openCurrent
+- Command title: _Open VitePress Markdown in Browser_
+- Command ID: `vitepressMd.openCurrent`
 
 Run it from:
 
@@ -23,16 +23,16 @@ Run it from:
 
 This extension contributes the following settings:
 
-- vitepressMd.baseUrl
+- `vitepressMd.baseUrl`
   - Default: http://localhost:5173
   - Base URL of your running VitePress dev server.
-- vitepressMd.rootFolder
+- `vitepressMd.rootFolder`
   - Default: docs
   - Workspace folder containing your VitePress root.
-- vitepressMd.browserApp
+- `vitepressMd.browserApp`
   - Default: Google Chrome
   - macOS app name used to open/reuse browser tabs.
-- vitepressMd.anchor
+- `vitepressMd.anchor`
   - Default: (empty)
   - Optional hash fragment to append, for example: installation
 
@@ -51,31 +51,31 @@ This extension contributes the following settings:
 
 Install dependencies:
 
-npm install
+`npm install`
 
 Compile once:
 
-npm run compile
+`npm run compile`
 
 Watch mode:
 
-npm run watch
+`npm run watch`
 
 ## Packaging and Publishing
 
 Create a VSIX package:
 
-vsce package
+`npm run package`
 
 Publish to Marketplace:
 
-vsce publish
+`npm run publish`
 
 If needed, bump version automatically:
 
-- Patch: vsce publish patch
-- Minor: vsce publish minor
-- Major: vsce publish major
+- Patch: `vsce publish patch`
+- Minor: `vsce publish minor`
+- Major: `vsce publish major`
 
 ## Known Issues
 
