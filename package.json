@@ -1,6 +1,6 @@
 {
   "name": "vitepress-open-current",
-  "publisher": "your-publisher-id",
+  "publisher": "chgeo",
   "displayName": "VitePress Open Current",
   "description": "Open the currently active Markdown file in the running VitePress dev server.",
   "version": "0.0.1",
