@@ -1,8 +1,8 @@
 {
   "name": "vitepress-open-md",
   "publisher": "chgeo",
-  "displayName": "VitePress Open MD",
-  "description": "Open the currently active Markdown file in the running VitePress dev server.",
+  "displayName": "Open Markdown Document in VitePress",
+  "description": "Open the currently active markdown file in the running VitePress dev server.",
   "version": "0.0.1",
   "license": "MIT",
   "keywords": [
@@ -35,7 +35,7 @@
       }
     ],
     "configuration": {
-      "title": "VitePress Open MD",
+      "title": "VitePress Open Markdown",
       "properties": {
         "vitepressOpenCurrent.baseUrl": {
           "type": "string",
@@ -55,7 +55,7 @@
         "vitepressOpenCurrent.anchor": {
           "type": "string",
           "default": "",
-          "description": "Optional anchor to append, e.g. installation"
+          "description": "Optional anchor to append"
         }
       }
     }
@@ -63,14 +63,12 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p .",
-    "watch": "tsc -watch -p ."
+    "watch": "tsc -watch -p .",
+    "package": "npx vsce package"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.90.0",
     "typescript": "^5.5.0"
-  },
-  "dependencies": {
-    "open": "^11.0.0"
   }
 }

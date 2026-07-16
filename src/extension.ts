@@ -184,8 +184,7 @@ async function openInBrowserWithReuse(url: string, baseUrl: string, browserApp: 
     }
   }
 
-  const open = await import('open');
-  await open.default(url);
+  await vscode.env.openExternal(vscode.Uri.parse(url));
 }
 
 export function activate(context: vscode.ExtensionContext) {
