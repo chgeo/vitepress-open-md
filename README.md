@@ -1,4 +1,4 @@
-# VitePress Open Current
+# VitePress Open MD
 
 Open the currently active Markdown file in your running VitePress dev server.
 

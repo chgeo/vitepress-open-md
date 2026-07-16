@@ -1,7 +1,7 @@
 {
-  "name": "vitepress-open-current",
+  "name": "vitepress-open-md",
   "publisher": "chgeo",
-  "displayName": "VitePress Open Current",
+  "displayName": "VitePress Open MD",
   "description": "Open the currently active Markdown file in the running VitePress dev server.",
   "version": "0.0.1",
   "license": "MIT",
@@ -13,11 +13,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/chgeo/vitepress-open-current.git"
+    "url": "https://github.com/chgeo/vitepress-open-md.git"
   },
-  "homepage": "https://github.com/chgeo/vitepress-open-current#readme",
+  "homepage": "https://github.com/chgeo/vitepress-open-md#readme",
   "bugs": {
-    "url": "https://github.com/chgeo/vitepress-open-current/issues"
+    "url": "https://github.com/chgeo/vitepress-open-md/issues"
   },
   "engines": {
     "vscode": "^1.90.0"
@@ -35,7 +35,7 @@
       }
     ],
     "configuration": {
-      "title": "VitePress Open Current",
+      "title": "VitePress Open MD",
       "properties": {
         "vitepressOpenCurrent.baseUrl": {
           "type": "string",

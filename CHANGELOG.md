@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "VitePress Open Current" extension are documented in this file.
+All notable changes to the "VitePress Open MD" extension are documented in this file.
 
 ## [0.0.1] - 2026-07-16
 
