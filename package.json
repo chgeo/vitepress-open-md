@@ -3,7 +3,7 @@
   "publisher": "chgeo",
   "displayName": "Open Markdown Document in VitePress",
   "description": "Open the currently active markdown file in the running VitePress dev server.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "keywords": [
     "vitepress",
@@ -25,7 +25,10 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:markdown",
+    "onLanguage:mdx"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [

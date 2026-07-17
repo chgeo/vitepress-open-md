@@ -38,6 +38,27 @@ function parseHeadingLine(line: string): Heading | null {
   };
 }
 
+class HeadingCodeLensProvider implements vscode.CodeLensProvider {
+  provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
+    const codeLenses: vscode.CodeLens[] = [];
+
+    for (let line = 0; line < document.lineCount; line++) {
+      const heading = parseHeadingLine(document.lineAt(line).text);
+      if (!heading) continue;
+
+      codeLenses.push(
+        new vscode.CodeLens(new vscode.Range(line, 0, line, 0), {
+          title: 'Open in VitePress',
+          command: 'vitepressMd.openCurrent',
+          arguments: [line],
+        })
+      );
+    }
+
+    return codeLenses;
+  }
+}
+
 function getCurrentSectionHeading(doc: vscode.TextDocument, cursorLine: number): Heading | null {
   let current: Heading | null = null;
 
@@ -174,7 +195,7 @@ async function openInBrowserWithReuse(url: string, baseUrl: string, browserApp: 
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const disposable = vscode.commands.registerCommand('vitepressMd.openCurrent', async () => {
+  const disposable = vscode.commands.registerCommand('vitepressMd.openCurrent', async (headingLine?: number) => {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {
@@ -197,14 +218,21 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const heading = getCurrentSectionHeading(doc, editor.selection.active.line);
+    const heading = typeof headingLine === 'number'
+      ? parseHeadingLine(doc.lineAt(headingLine).text)
+      : getCurrentSectionHeading(doc, editor.selection.active.line);
     const anchor = heading ? slugifyHeading(heading.text) : '';
 
     const url = `${baseUrl}${route}${anchor ? `#${encodeURIComponent(anchor)}` : ''}`;
     await openInBrowserWithReuse(url, baseUrl, browserApp);
   });
 
-  context.subscriptions.push(disposable);
+  const codeLensProvider = vscode.languages.registerCodeLensProvider(
+    [{ language: 'markdown' }, { language: 'mdx' }],
+    new HeadingCodeLensProvider()
+  );
+
+  context.subscriptions.push(disposable, codeLensProvider);
 }
 
 export function deactivate() { }

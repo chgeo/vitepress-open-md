@@ -2,7 +2,11 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
-## [0.0.1] - 2026-07-16
+## [0.2.0] - 2026-07-17
+
+- Added a quick action above each Markdown and MDX heading in the editor. The quick action opens the current section directly in VitePress.
+
+## [0.1.0] - 2026-07-16
 
 - Initial release.
 - Added command to open the active Markdown file in the VitePress dev server.
