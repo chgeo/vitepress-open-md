@@ -11,6 +11,14 @@ describe('slugifyHeading', () => {
     expect(slugifyHeading('Title <Badge /> {#custom-id}')).to.equal('title');
   });
 
+  test('removes inline html tags from heading text', () => {
+    expect(slugifyHeading('Intro <em>Very</em> Important <code>API</code>')).to.equal('intro-very-important-api');
+  });
+
+  test('removes markdown attributes at the end of headings', () => {
+    expect(slugifyHeading('Installation Guide {.lead #install data-track="docs"}')).to.equal('installation-guide');
+  });
+
   test('removes html entities and standalone ampersands', () => {
     expect(slugifyHeading('Fish &amp; Chips & Salsa')).to.equal('fish--chips--salsa');
   });
