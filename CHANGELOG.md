@@ -2,6 +2,10 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
+## [0.2.3] - 2026-07-17
+
+- Fixed heading anchor ID extraction to tolerate whitespace inside the braces, e.g. `Foo { #bar }` now correctly uses `bar` as the slug.
+
 ## [0.2.2] - 2026-07-17
 
 - Added a tooltip to the Markdown/MDX heading quick action that shows the VitePress target URL prefix.

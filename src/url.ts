@@ -44,7 +44,7 @@ export function buildVitePressUrl(filePath: string, rootFolder: string, baseUrl:
 }
 
 export function slugifyHeading(text: string): string {
-  const explicitIdMatch = text.match(/\{#([^}\s]+)\}/);
+  const explicitIdMatch = text.match(/\{\s*#([^}\s]+)\s*\}/);
   const source = explicitIdMatch ? explicitIdMatch[1] : text;
 
   return source

@@ -15,6 +15,10 @@ describe('slugifyHeading', () => {
     expect(slugify('Foo {#bar}')).to.equal('bar');
   });
 
+  it('uses explicit markdown ID with surrounding whitespace { #bar. }', () => {
+    expect(slugify('Foo { #bar }')).to.equal('bar');
+  });
+
   it('removes inline html tags from heading text', () => {
     expect(slugify('Intro <em>Very</em> Important <code>API</code>')).to.equal('intro-very-important-api');
   });
