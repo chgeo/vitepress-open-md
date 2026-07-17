@@ -65,11 +65,14 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p .",
     "watch": "tsc -watch -p .",
+    "test": "npm run compile && node --test \"dist/**/*.test.js\"",
     "package": "npx vsce package"
   },
   "devDependencies": {
+    "@types/chai": "^5.2.3",
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.90.0",
+    "chai": "^5.1.1",
     "typescript": "^5.5.0"
   }
 }

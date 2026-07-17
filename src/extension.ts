@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
+import { slugifyHeading } from './helpers';
 
 const execFileAsync = promisify(execFile);
 
@@ -9,21 +10,6 @@ type Heading = {
   level: number;
   text: string;
 };
-
-function slugifyHeading(text: string): string {
-  return text
-  .trim()
-  .toLowerCase()
-  .normalize('NFKD')
-  .replace(/<[^>]*>|{[^}]*}/g, '')
-  .replace(/&(?:[a-z][a-z0-9]+|#\d+|#x[\da-f]+);/gi, '')
-  .replace(/&/g, '')
-  .replace(/[\u0300-\u036f]/g, '')
-  .replace(/ß/g, 'ss')
-  .replace(/[^a-z0-9\s-_]/g, '')
-  .replace(/[\s_]/g, '-')
-  .replace(/^-+|-+$/g, '')
-}
 
 function toVitePressRoute(filePath: string, rootFolder: string): string | null {
   const wsRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
