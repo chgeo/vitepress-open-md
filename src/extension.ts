@@ -192,13 +192,11 @@ export function activate(context: vscode.ExtensionContext) {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {
-      vscode.window.showErrorMessage('No active editor.');
       return;
     }
 
     const doc = editor.document;
-    if (!doc.fileName.match(/\.mdx?$/i)) {
-      vscode.window.showErrorMessage('Active file is not a Markdown file.');
+    if (doc.languageId !== 'markdown' && doc.languageId !== 'mdx') {
       return;
     }
 

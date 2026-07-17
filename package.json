@@ -31,7 +31,8 @@
     "commands": [
       {
         "command": "vitepressMd.openCurrent",
-        "title": "Open VitePress Markdown in Browser"
+        "title": "Open VitePress Markdown in Browser",
+        "enablement": "resourceExtname =~ /^\\.mdx?$/"
       }
     ],
     "configuration": {
