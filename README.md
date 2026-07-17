@@ -4,7 +4,7 @@ VS Code extension to open the currently active markdown file in your running [Vi
 
 ## Features
 
-- Adds a command to open the active markdown file in your browser.
+- Adds a command and a CodeLens action to open the active markdown file in your browser.
 - Converts workspace file paths to the matching VitePress route.
 - Supports configuring the target browser app on macOS.
 
@@ -17,6 +17,12 @@ Run it from:
 
 - Command Palette
 - Keyboard shortcut (if you assign one)
+
+## CodeLens Action
+
+Example:<br>
+<img width="151" height="55" alt="image" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
+
 
 ## Extension Settings
 
