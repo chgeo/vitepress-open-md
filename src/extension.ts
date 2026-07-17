@@ -1,10 +1,6 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-import { execFile } from 'child_process';
-import { promisify } from 'util';
-import { slugifyHeading } from './helpers';
-
-const execFileAsync = promisify(execFile);
+import { buildVitePressUrl, slugifyHeading, toVitePressRootUrl } from './url';
+import { openInBrowserWithReuse } from './open';
 
 type Heading = {
   level: number;
@@ -24,36 +20,6 @@ function getVitePressSettings(): VitePressSettings {
     rootFolder: cfg.get<string>('rootFolder') ?? 'docs',
     browserApp: cfg.get<string>('browserApp') ?? 'Google Chrome',
   };
-}
-
-function toVitePressRootUrl(baseUrl: string, rootFolder: string): string {
-  const normalizedRootFolder = rootFolder.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '');
-  const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
-  return normalizedRootFolder ? `${normalizedBaseUrl}/${normalizedRootFolder}` : normalizedBaseUrl;
-}
-
-function buildVitePressUrl(filePath: string, rootFolder: string, baseUrl: string, anchor?: string): string | null {
-  const route = toVitePressRoute(filePath, rootFolder);
-  if (!route) return null;
-
-  return `${baseUrl}${route}${anchor ? `#${encodeURIComponent(anchor)}` : ''}`;
-}
-
-function toVitePressRoute(filePath: string, rootFolder: string): string | null {
-  const wsRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
-  if (!wsRoot) return null;
-
-  const rel = path.relative(wsRoot, filePath);
-  const normalizedRootFolder = rootFolder.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '');
-  let noExt = rel
-    .replace(/\\/g, '/')
-    .replace(/@external[/\\]/i, '')
-    .replace(/(\.fragment)?\.mdx?$/i, '');
-
-  if (noExt === 'index') return '/';
-  if (noExt.endsWith('/index')) noExt = noExt.slice(0, -('/index'.length));
-
-  return '/' + normalizedRootFolder + '/' + noExt;
 }
 
 function parseHeadingLine(line: string): Heading | null {
@@ -125,122 +91,6 @@ function getCurrentSectionHeading(doc: vscode.TextDocument, cursorLine: number):
   }
 
   return current;
-}
-
-function toAppleScriptString(value: string): string {
-  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-}
-
-function normalizeBaseUrl(baseUrl: string): string {
-  return baseUrl.replace(/\/+$/, '');
-}
-
-async function openInChromeTab(url: string, baseUrl: string, appName: string): Promise<boolean> {
-  const app = toAppleScriptString(appName);
-  const escapedUrl = toAppleScriptString(url);
-  const escapedBaseUrl = toAppleScriptString(normalizeBaseUrl(baseUrl));
-
-  const script = `
-    tell application "${app}"
-      activate
-      set foundTab to false
-
-      repeat with w in windows
-        set tabCount to count of tabs of w
-        repeat with i from 1 to tabCount
-          set t to tab i of w
-          set tabUrl to URL of t
-          if tabUrl starts with "${escapedBaseUrl}" then
-            set active tab index of w to i
-            set index of w to 1
-            set URL of t to "${escapedUrl}"
-            set foundTab to true
-            exit repeat
-          end if
-        end repeat
-        if foundTab then exit repeat
-      end repeat
-
-      if not foundTab then
-        if (count of windows) = 0 then
-          make new window
-        end if
-        tell front window
-          make new tab with properties {URL:"${escapedUrl}"}
-          set active tab index to (count of tabs)
-        end tell
-      end if
-    end tell
-  `;
-
-  try {
-    await execFileAsync('osascript', ['-e', script]);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function openInSafariTab(url: string, baseUrl: string): Promise<boolean> {
-  const escapedUrl = toAppleScriptString(url);
-  const escapedBaseUrl = toAppleScriptString(normalizeBaseUrl(baseUrl));
-
-  const script = `
-    tell application "Safari"
-      activate
-      set foundTab to false
-
-      repeat with w in windows
-        set tabCount to count of tabs of w
-        repeat with i from 1 to tabCount
-          set t to tab i of w
-          set tabUrl to URL of t
-          if tabUrl starts with "${escapedBaseUrl}" then
-            set current tab of w to t
-            set index of w to 1
-            set URL of t to "${escapedUrl}"
-            set foundTab to true
-            exit repeat
-          end if
-        end repeat
-        if foundTab then exit repeat
-      end repeat
-
-      if not foundTab then
-        if (count of windows) = 0 then
-          make new document with properties {URL:"${escapedUrl}"}
-        else
-          tell front window
-            set current tab to (make new tab with properties {URL:"${escapedUrl}"})
-          end tell
-        end if
-      end if
-    end tell
-  `;
-
-  try {
-    await execFileAsync('osascript', ['-e', script]);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function openInBrowserWithReuse(url: string, baseUrl: string, browserApp: string): Promise<void> {
-  if (process.platform === 'darwin') {
-    const app = browserApp.trim().toLowerCase();
-
-    if (app === 'safari') {
-      const reused = await openInSafariTab(url, baseUrl);
-      if (reused) return;
-    } else {
-      const chromeAppName = browserApp.trim() || 'Google Chrome';
-      const reused = await openInChromeTab(url, baseUrl, chromeAppName);
-      if (reused) return;
-    }
-  }
-
-  await vscode.env.openExternal(vscode.Uri.parse(url));
 }
 
 export function activate(context: vscode.ExtensionContext) {

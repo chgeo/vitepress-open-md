@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import { expect } from 'chai';
-import { slugifyHeading as slugify  } from './helpers';
+import { slugifyHeading as slugify  } from './url';
 
 describe('slugifyHeading', () => {
   it('trims and lowercases input', () => {
