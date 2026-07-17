@@ -11,6 +11,34 @@ type Heading = {
   text: string;
 };
 
+type VitePressSettings = {
+  baseUrl: string;
+  rootFolder: string;
+  browserApp: string;
+};
+
+function getVitePressSettings(): VitePressSettings {
+  const cfg = vscode.workspace.getConfiguration('vitepressMd');
+  return {
+    baseUrl: cfg.get<string>('baseUrl') ?? 'http://localhost:5173',
+    rootFolder: cfg.get<string>('rootFolder') ?? 'docs',
+    browserApp: cfg.get<string>('browserApp') ?? 'Google Chrome',
+  };
+}
+
+function toVitePressRootUrl(baseUrl: string, rootFolder: string): string {
+  const normalizedRootFolder = rootFolder.replace(/\\/g, '/').replace(/^\/+|\/+$/g, '');
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+  return normalizedRootFolder ? `${normalizedBaseUrl}/${normalizedRootFolder}` : normalizedBaseUrl;
+}
+
+function buildVitePressUrl(filePath: string, rootFolder: string, baseUrl: string, anchor?: string): string | null {
+  const route = toVitePressRoute(filePath, rootFolder);
+  if (!route) return null;
+
+  return `${baseUrl}${route}${anchor ? `#${encodeURIComponent(anchor)}` : ''}`;
+}
+
 function toVitePressRoute(filePath: string, rootFolder: string): string | null {
   const wsRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
   if (!wsRoot) return null;
@@ -39,6 +67,26 @@ function parseHeadingLine(line: string): Heading | null {
 }
 
 class HeadingCodeLensProvider implements vscode.CodeLensProvider {
+  private readonly onDidChangeCodeLensesEmitter = new vscode.EventEmitter<void>();
+  readonly onDidChangeCodeLenses = this.onDidChangeCodeLensesEmitter.event;
+  private actionTooltip = 'Open in VitePress';
+
+  constructor() {
+    this.updateTooltipFromConfig();
+  }
+
+  public updateTooltipFromConfig(): void {
+    const settings = getVitePressSettings();
+    const rootUrl = toVitePressRootUrl(settings.baseUrl, settings.rootFolder);
+
+    this.actionTooltip = `Open as ${rootUrl}/…`;
+    this.onDidChangeCodeLensesEmitter.fire();
+  }
+
+  public dispose(): void {
+    this.onDidChangeCodeLensesEmitter.dispose();
+  }
+
   provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
     const codeLenses: vscode.CodeLens[] = [];
 
@@ -49,6 +97,7 @@ class HeadingCodeLensProvider implements vscode.CodeLensProvider {
       codeLenses.push(
         new vscode.CodeLens(new vscode.Range(line, 0, line, 0), {
           title: 'Open in VitePress',
+          tooltip: this.actionTooltip,
           command: 'vitepressMd.openCurrent',
           arguments: [line],
         })
@@ -207,32 +256,36 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const cfg = vscode.workspace.getConfiguration('vitepressMd');
-    const baseUrl = cfg.get<string>('baseUrl') ?? 'http://localhost:5173';
-    const rootFolder = cfg.get<string>('rootFolder') ?? 'docs';
-    const browserApp = cfg.get<string>('browserApp') ?? 'Google Chrome';
-
-    const route = toVitePressRoute(doc.uri.fsPath, rootFolder);
-    if (!route) {
-      vscode.window.showErrorMessage(`File is not inside the configured root folder "${rootFolder}".`);
-      return;
-    }
+    const settings = getVitePressSettings();
 
     const heading = typeof headingLine === 'number'
       ? parseHeadingLine(doc.lineAt(headingLine).text)
       : getCurrentSectionHeading(doc, editor.selection.active.line);
     const anchor = heading ? slugifyHeading(heading.text) : '';
 
-    const url = `${baseUrl}${route}${anchor ? `#${encodeURIComponent(anchor)}` : ''}`;
-    await openInBrowserWithReuse(url, baseUrl, browserApp);
+    const url = buildVitePressUrl(doc.uri.fsPath, settings.rootFolder, settings.baseUrl, anchor);
+    if (!url) {
+      vscode.window.showErrorMessage(`File is not inside the configured root folder "${settings.rootFolder}".`);
+      return;
+    }
+
+    await openInBrowserWithReuse(url, settings.baseUrl, settings.browserApp);
   });
+
+  const headingCodeLensProvider = new HeadingCodeLensProvider();
 
   const codeLensProvider = vscode.languages.registerCodeLensProvider(
     [{ language: 'markdown' }, { language: 'mdx' }],
-    new HeadingCodeLensProvider()
+    headingCodeLensProvider
   );
 
-  context.subscriptions.push(disposable, codeLensProvider);
+  const configListener = vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration('vitepressMd.baseUrl') || event.affectsConfiguration('vitepressMd.rootFolder')) {
+      headingCodeLensProvider.updateTooltipFromConfig();
+    }
+  });
+
+  context.subscriptions.push(disposable, codeLensProvider, configListener, headingCodeLensProvider);
 }
 
 export function deactivate() { }
