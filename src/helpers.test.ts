@@ -7,8 +7,12 @@ describe('slugifyHeading', () => {
     expect(slugify('  Hello World  ')).to.equal('hello-world');
   });
 
-  it('removes markdown-style html and braces content', () => {
-    expect(slugify('Title <Badge /> {#custom-id}')).to.equal('title');
+  it('uses explicit markdown ID when present', () => {
+    expect(slugify('Title <Badge /> {#custom-id}')).to.equal('custom-id');
+  });
+
+  it('uses explicit markdown ID for heading Foo {#bar}', () => {
+    expect(slugify('Foo {#bar}')).to.equal('bar');
   });
 
   it('removes inline html tags from heading text', () => {

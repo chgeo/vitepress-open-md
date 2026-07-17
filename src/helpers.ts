@@ -1,5 +1,8 @@
 export function slugifyHeading(text: string): string {
-  return text
+  const explicitIdMatch = text.match(/\{#([^}\s]+)\}/);
+  const source = explicitIdMatch ? explicitIdMatch[1] : text;
+
+  return source
     .trim()
     .toLowerCase()
     .normalize('NFKD')
