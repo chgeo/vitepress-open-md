@@ -52,11 +52,6 @@
           "type": "string",
           "default": "Google Chrome",
           "description": "macOS external browser app for tab reuse. Use Google Chrome, Safari, or another Chrome-family app name."
-        },
-        "vitepressMd.anchor": {
-          "type": "string",
-          "default": "",
-          "description": "Optional anchor to append"
         }
       }
     }

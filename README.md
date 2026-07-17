@@ -6,7 +6,6 @@ VS Code extension to open the currently active markdown file in your running [Vi
 
 - Adds a command to open the active markdown file in your browser.
 - Converts workspace file paths to the matching VitePress route.
-- Supports an optional anchor fragment.
 - Supports configuring the target browser app on macOS.
 
 ## Command
@@ -32,9 +31,6 @@ This extension contributes the following settings:
 - `vitepressMd.browserApp`
   - Default: Google Chrome
   - macOS app name used to open/reuse browser tabs.
-- `vitepressMd.anchor`
-  - Default: (empty)
-  - Optional hash fragment to append, for example: installation
 
 ## Requirements
 
