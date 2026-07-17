@@ -2,6 +2,11 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
+## [0.2.2] - 2026-07-17
+
+- Added a tooltip to the Markdown/MDX heading quick action that shows the VitePress target URL prefix.
+- Improved heading quick action responsiveness by reducing per-heading tooltip computation.
+
 ## [0.2.1] - 2026-07-17
 
 - Honor explicit Markdown heading IDs (for example, `Foo {#bar}` now uses `bar` as the slug/anchor).
