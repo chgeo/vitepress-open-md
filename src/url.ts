@@ -44,19 +44,55 @@ export function buildVitePressUrl(filePath: string, rootFolder: string, baseUrl:
 }
 
 export function slugifyHeading(text: string): string {
+  // Match explicit markdown IDs like {#my-anchor} or { #my-anchor }.
   const explicitIdMatch = text.match(/\{\s*#([^}\s]+)\s*\}/);
-  const source = explicitIdMatch ? explicitIdMatch[1] : text;
+  if (explicitIdMatch) {
+    return explicitIdMatch[1]
+      .trim()
+      .toLowerCase()
+      .normalize('NFKD')
+      // Remove combining accent marks produced by Unicode normalization.
+      .replace(/[\u0300-\u036f]/g, '')
+      // Transliterate German sharp s to plain ASCII.
+      .replace(/ß/g, 'ss')
+      // Keep only slug-safe characters for explicit IDs.
+      .replace(/[^a-z0-9._-]/g, '')
+      // Trim hyphens from the start and end of the explicit ID.
+      .replace(/^-+|-+$/g, '');
+  }
 
-  return source
+  return text
     .trim()
     .toLowerCase()
     .normalize('NFKD')
-    .replace(/<[^>]*>|{[^}]*}/g, '')
+    // Strip markdown emphasis delimiters so italicized terms like _.env_ do not become double hyphens.
+    .replace(/(^|[^a-z0-9])([*_]{1,2})(?=\S)(.+?)(?<=\S)\2(?=$|[^a-z0-9])/g, '$1$3')
+    // Remove markdown code-span backticks while keeping the enclosed text.
+    .replace(/`+/g, '')
+    // Drop trailing markdown attribute blocks like {.class} or {#id}.
+    .replace(/{[^}]*}/g, '')
+    // Unescape literal angle-bracket placeholders like \<srv\>.
+    .replace(/\\<([^>]+)\\>/g, '$1')
+    // Remove named and numeric HTML entities.
     .replace(/&(?:[a-z][a-z0-9]+|#\d+|#x[\da-f]+);/gi, '')
+    // Drop any remaining ampersands that were not part of an entity.
     .replace(/&/g, '')
+    // Remove combining accent marks produced by Unicode normalization.
     .replace(/[\u0300-\u036f]/g, '')
+    // Transliterate German sharp s to plain ASCII.
     .replace(/ß/g, 'ss')
-    .replace(/[^a-z0-9\s-_]/g, '')
+    // Convert dots before HTML-tagged placeholders into slug separators.
+    .replace(/(?<=[a-z0-9-])\.(?:<[^>]*>)+(?=[a-z0-9])/g, '-')
+    // Convert dots after closing HTML tags into slug separators.
+    .replace(/((?:<\/[^>]*>)+)\.(?=[a-z0-9])/g, '$1-')
+    // Convert interior dots between alphanumeric segments into hyphens.
+    .replace(/(?<=[a-z0-9-])\.(?=[a-z0-9])/g, '-')
+    // Remove any remaining HTML tags after separator normalization is done.
+    .replace(/<[^>]*>/g, '')
+    // Remove unsupported punctuation while keeping spaces, underscores, and hyphens for the next pass.
+    .replace(/[^a-z0-9\s_-]/g, '')
+    // Normalize spaces and underscores to hyphens.
     .replace(/[\s_]/g, '-')
+    // Trim hyphens from the start and end of the final slug.
     .replace(/^-+|-+$/g, '');
 }

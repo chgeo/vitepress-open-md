@@ -2,6 +2,10 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
+## [0.2.4] - 2026-07-20
+
+- Improved heading slug generation for CAP documentation patterns, including emphasized filenames, explicit IDs with preserved underscores, and backticked property paths containing HTML-tagged placeholders such as `cds.requires.<i>\<srv\></i>`.service.
+
 ## [0.2.3] - 2026-07-17
 
 - Fixed heading anchor ID extraction to tolerate whitespace inside the braces, e.g. `Foo { #bar }` now correctly uses `bar` as the slug.

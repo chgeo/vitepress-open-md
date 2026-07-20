@@ -15,8 +15,49 @@ describe('slugifyHeading', () => {
     expect(slugify('Foo {#bar}')).to.equal('bar');
   });
 
+  it('preserves underscores in explicit markdown IDs', () => {
+    expect(slugify('Services {#vcap_services}')).to.equal('vcap_services');
+  });
+
   it('uses explicit markdown ID with surrounding whitespace { #bar. }', () => {
     expect(slugify('Foo { #bar }')).to.equal('bar');
+  });
+
+  it('ignores markdown emphasis around .env in headings', () => {
+    expect(slugify('In _.env_ Files for Local Testing')).to.equal('in-env-files-for-local-testing');
+  });
+
+  it('preserves dotted filename segment boundaries inside markdown emphasis', () => {
+    expect(slugify('Through _.cdsrc-private.json_ File for Hybrid Testing')).to.equal('through-cdsrc-private-json-file-for-hybrid-testing');
+  });
+
+  it('preserves dotted segments around escaped angle-bracket placeholders inside html tags', () => {
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.credentials')).to.equal('cds-requires-srv-credentials');
+  });
+
+  it('preserves dotted segments after closing html tags around escaped angle-bracket placeholders', () => {
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.service')).to.equal('cds-requires-srv-service');
+  });
+
+  it('preserves dotted segments for backticked CAP docs property headings', () => {
+    expect(slugify('`cds.requires.<i>\\<srv\\></i>`.service')).to.equal('cds-requires-srv-service');
+    expect(slugify('`cds.requires.<i>\\<srv\\></i>`.impl')).to.equal('cds-requires-srv-impl');
+    expect(slugify('`cds.requires.<i>\\<srv\\></i>`.kind')).to.equal('cds-requires-srv-kind');
+    expect(slugify('`cds.requires.<i>\\<srv\\></i>`.model')).to.equal('cds-requires-srv-model');
+    expect(slugify('`cds.requires.<i>\\<srv\\></i>`.credentials')).to.equal('cds-requires-srv-credentials');
+  });
+
+  it('slugifies the CAP docs property headings for impl, kind, model, and credentials', () => {
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.impl')).to.equal('cds-requires-srv-impl');
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.kind')).to.equal('cds-requires-srv-kind');
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.model')).to.equal('cds-requires-srv-model');
+    expect(slugify('cds.requires.<i>\\<srv\\></i>.credentials')).to.equal('cds-requires-srv-credentials');
+  });
+
+  it('slugifies additional CAP docs headings as expected', () => {
+    expect(slugify('cds. connect.to () {.method}')).to.equal('cds-connect-to');
+    expect(slugify('Through `process.env` Variables {#bindings-via-process-env}')).to.equal('bindings-via-process-env');
+    expect(slugify('In Kubernetes / Kyma { #in-kubernetes-kyma}')).to.equal('in-kubernetes-kyma');
   });
 
   it('removes inline html tags from heading text', () => {
