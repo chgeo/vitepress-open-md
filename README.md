@@ -1,6 +1,10 @@
 # VitePress Open Markdown
 
-VS Code extension to open the currently active markdown file in your running [VitePress](https://vitepress.dev/) dev server.
+VS Code extension to **open the rendered markdown document in [VitePress](https://vitepress.dev/) dev server**.
+
+Looks like that in the markdown editor:
+
+<img width="151" height="55" alt="CodeLens action to open VitePress in VS Code markdown editor" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
 
 ## Features
 
@@ -10,7 +14,11 @@ VS Code extension to open the currently active markdown file in your running [Vi
 
 ## Install
 
-From GitHub Releases as VSIX file:
+### From VS Code Marketplace
+
+Just use the _Install_ button on the [VS Code Marketplace page](https://marketplace.visualstudio.com/items?itemName=chgeo.vitepress-open-md).
+
+### From GitHub Releases
 
 1. Go to the [**Releases** page](https://github.com/chgeo/vitepress-open-md/releases) on GitHub.
 2. Open the latest release.
@@ -50,8 +58,9 @@ Run it from:
 
 ### CodeLens Action
 
-Example:<br>
-<img width="151" height="55" alt="image" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
+Example:
+
+<img width="151" height="55" alt="CodeLens action to open VitePress in VS Code markdown editor" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
 
 
 ### Extension Settings
