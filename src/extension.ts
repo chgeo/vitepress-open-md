@@ -65,7 +65,7 @@ class HeadingCodeLensProvider implements vscode.CodeLensProvider {
           title: 'Open in VitePress',
           tooltip: this.actionTooltip,
           command: 'vitepressMd.openCurrent',
-          arguments: [line],
+          arguments: [document.uri, line],
         })
       );
     }
@@ -93,27 +93,31 @@ function getCurrentSectionHeading(doc: vscode.TextDocument, cursorLine: number):
   return current;
 }
 
+function isMarkdownPath(filePath: string): boolean {
+  return /\.mdx?$/i.test(filePath);
+}
+
 export function activate(context: vscode.ExtensionContext) {
-  const disposable = vscode.commands.registerCommand('vitepressMd.openCurrent', async (headingLine?: number) => {
+  const disposable = vscode.commands.registerCommand('vitepressMd.openCurrent', async (uriArg?: vscode.Uri, lineArg?: number) => {
+    const settings = getVitePressSettings();
     const editor = vscode.window.activeTextEditor;
 
-    if (!editor) {
+    const resourceUri = uriArg ?? editor?.document.uri;
+    if (!resourceUri || !isMarkdownPath(resourceUri.fsPath)) {
       return;
     }
 
-    const doc = editor.document;
-    if (doc.languageId !== 'markdown' && doc.languageId !== 'mdx') {
-      return;
-    }
-
-    const settings = getVitePressSettings();
-
-    const heading = typeof headingLine === 'number'
-      ? parseHeadingLine(doc.lineAt(headingLine).text)
-      : getCurrentSectionHeading(doc, editor.selection.active.line);
+    const isActiveDoc = !!editor && editor.document.uri.fsPath === resourceUri.fsPath;
+    const doc = isActiveDoc ? editor.document : undefined;
+    const cursorLine = editor?.selection.active.line ?? 0;
+    const heading = doc
+      ? (typeof lineArg === 'number'
+        ? parseHeadingLine(doc.lineAt(lineArg).text)
+        : getCurrentSectionHeading(doc, cursorLine))
+      : null;
     const anchor = heading ? slugifyHeading(heading.text) : '';
 
-    const url = buildVitePressUrl(doc.uri.fsPath, settings.rootFolder, settings.baseUrl, anchor);
+    const url = buildVitePressUrl(resourceUri.fsPath, settings.rootFolder, settings.baseUrl, anchor);
     if (!url) {
       vscode.window.showErrorMessage(`File is not inside the configured root folder "${settings.rootFolder}".`);
       return;

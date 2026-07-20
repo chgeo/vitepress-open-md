@@ -8,8 +8,9 @@ Looks like that in the markdown editor:
 
 ## Features
 
-- Adds a command and a CodeLens action to open the active markdown file in your browser.
+- Adds a command, CodeLens action, editor title button, and context menu entries to open Markdown/MDX pages in VitePress.
 - Converts workspace file paths to the matching VitePress route.
+- Supports opening from the selected file in Explorer context menu.
 - Supports configuring the target browser app on macOS.
 
 ## Install
@@ -36,8 +37,10 @@ You can also install from the command line:
 
 1. Start your VitePress dev server.
 2. Open a Markdown file in the editor.
-3. Run **Open VitePress Markdown in Browser** from the Command Palette
-4. Or use the **Open in VitePress** code lens action above any markdown heading.
+3. Run **Open in VitePress** from the Command Palette.
+4. Or click the **Open in VitePress** editor title button.
+5. Or use the **Open in VitePress** code lens action above any Markdown/MDX heading.
+6. Or right-click a Markdown/MDX file in Explorer and choose **Open in VitePress**.
 
 #### Prerequisites
 
@@ -48,19 +51,28 @@ You can also install from the command line:
 
 ### Commands
 
-- Command title: _Open VitePress Markdown in Browser_
+- Command title: _Open in VitePress_
 - Command ID: `vitepressMd.openCurrent`
 
 Run it from:
 
 - Command Palette
 - Keyboard shortcut (if you assign one)
+- Editor title button
+- Editor title overflow menu
+- Explorer context menu
 
 ### CodeLens Action
 
 Example:
 
 <img width="151" height="55" alt="CodeLens action to open VitePress in VS Code markdown editor" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
+
+### Editor and Explorer Menus
+
+- Editor title button: visible for Markdown/MDX editors.
+- Editor title overflow menu: placed next to Markdown preview actions.
+- Explorer context menu: shown for Markdown/MDX files and opens the selected file.
 
 
 ### Extension Settings

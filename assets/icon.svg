@@ -1,0 +1,26 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Background -->
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="#0E639C"/>
+  
+  <!-- "M" for Markdown (centered left) -->
+  <g transform="translate(48, 90)">
+    <!-- Left vertical line of M -->
+    <line x1="10" y1="4" x2="10" y2="72" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+    <!-- Left peak of M -->
+    <line x1="10" y1="4" x2="44" y2="50" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Right peak of M -->
+    <line x1="44" y1="50" x2="78" y2="4" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Right vertical line of M -->
+    <line x1="78" y1="4" x2="78" y2="72" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Prominent outward arrow (centered right, vertically aligned with M) -->
+  <g transform="translate(140, 96)">
+    <!-- Arrow shaft (diagonal line, bottom-left to top-right, shortened at tail) -->
+    <line x1="16" y1="56" x2="64" y2="8" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+    <!-- Arrow head - horizontal top piece -->
+    <line x1="38" y1="8" x2="64" y2="8" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Arrow head - vertical right piece -->
+    <line x1="64" y1="8" x2="64" y2="34" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

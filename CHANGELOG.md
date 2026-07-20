@@ -2,6 +2,13 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
+## [0.3.0] - 2026-07-20
+
+- Added an editor title-bar action (with icon) for Markdown and MDX files.
+- Added editor title overflow and Explorer context menu entries for quick access.
+- Fixed Explorer invocation so the selected file is opened instead of always using the active editor.
+- Added a dedicated extension icon for Marketplace listing.
+
 ## [0.2.4] - 2026-07-20
 
 - Improved heading slug generation for CAP documentation patterns, including emphasized filenames, explicit IDs with preserved underscores, and backticked property paths containing HTML-tagged placeholders such as `cds.requires.<i>\<srv\></i>`.service.

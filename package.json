@@ -2,8 +2,9 @@
   "name": "vitepress-open-md",
   "publisher": "chgeo",
   "displayName": "Open Markdown Document in VitePress",
+  "icon": "assets/icon.png",
   "description": "Open the currently active markdown file in the running VitePress dev server.",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "license": "MIT",
   "keywords": [
     "vitepress",
@@ -34,10 +35,36 @@
     "commands": [
       {
         "command": "vitepressMd.openCurrent",
-        "title": "Open VitePress Markdown in Browser",
-        "enablement": "resourceExtname =~ /^\\.mdx?$/"
+        "title": "Open in VitePress",
+        "icon": {
+          "light": "assets/open-vitepress-light.svg",
+          "dark": "assets/open-vitepress-dark.svg"
+        }
       }
     ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "vitepressMd.openCurrent",
+          "when": "editorLangId =~ /^(markdown|mdx)$/",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "vitepressMd.openCurrent",
+          "when": "resourceLangId =~ /^(markdown|mdx)$/",
+          "group": "1_open"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "vitepressMd.openCurrent",
+          "when": "resourceLangId =~ /^(markdown|mdx)$/",
+          "group": "navigation@1"
+        }
+      ]
+    },
     "configuration": {
       "title": "VitePress Open Markdown",
       "properties": {
