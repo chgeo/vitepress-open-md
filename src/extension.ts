@@ -12,6 +12,7 @@ type VitePressSettings = {
   rootFolder: string;
   browserApp: string;
   vsCodeCompatibleSlugs: boolean;
+  enableCodeLens: boolean;
 };
 
 function getVitePressSettings(): VitePressSettings {
@@ -21,6 +22,7 @@ function getVitePressSettings(): VitePressSettings {
     rootFolder: cfg.get<string>('rootFolder') ?? 'docs',
     browserApp: cfg.get<string>('browserApp') ?? 'Google Chrome',
     vsCodeCompatibleSlugs: cfg.get<boolean>('vsCodeCompatibleSlugs') ?? false,
+    enableCodeLens: cfg.get<boolean>('enableCodeLens') ?? false,
   };
 }
 
@@ -51,12 +53,20 @@ class HeadingCodeLensProvider implements vscode.CodeLensProvider {
     this.onDidChangeCodeLensesEmitter.fire();
   }
 
+  public refresh(): void {
+    this.onDidChangeCodeLensesEmitter.fire();
+  }
+
   public dispose(): void {
     this.onDidChangeCodeLensesEmitter.dispose();
   }
 
   provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
     const codeLenses: vscode.CodeLens[] = [];
+
+    if (!getVitePressSettings().enableCodeLens) {
+      return codeLenses;
+    }
 
     for (let line = 0; line < document.lineCount; line++) {
       const heading = parseHeadingLine(document.lineAt(line).text);
@@ -138,6 +148,9 @@ export function activate(context: vscode.ExtensionContext) {
   const configListener = vscode.workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('vitepressMd.baseUrl') || event.affectsConfiguration('vitepressMd.rootFolder')) {
       headingCodeLensProvider.updateTooltipFromConfig();
+    }
+    if (event.affectsConfiguration('vitepressMd.enableCodeLens')) {
+      headingCodeLensProvider.refresh();
     }
   });
 

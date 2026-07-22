@@ -2,6 +2,10 @@
 
 All notable changes to the "VitePress Open MD" extension are documented in this file.
 
+## [Unreleased]
+
+- The CodeLens action above Markdown/MDX headings is now opt-in via `vitepressMd.enableCodeLens` (default: `false`).
+
 ## [0.3.0] - 2026-07-20
 
 - Added an editor title-bar action (with icon) for Markdown and MDX files.

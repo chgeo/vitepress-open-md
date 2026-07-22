@@ -87,6 +87,11 @@
           "type": "boolean",
           "default": false,
           "description": "Use a slugifier for URL headings compatible with VS Code's markdown editor. For example, 'Node.js' becomes '#nodejs' instead of standard '#node-js'."
+        },
+        "vitepressMd.enableCodeLens": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show an 'Open in VitePress' CodeLens above each markdown heading."
         }
       }
     }

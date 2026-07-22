@@ -2,13 +2,10 @@
 
 VS Code extension to **open the rendered markdown document in [VitePress](https://vitepress.dev/) dev server**.
 
-Looks like that in the markdown editor:
-
-<img width="151" height="55" alt="CodeLens action to open VitePress in VS Code markdown editor" src="https://github.com/user-attachments/assets/2242f6b6-fdd2-4b81-82cb-33195b42e2cc" />
-
 ## Features
 
-- Adds a command, CodeLens action, editor title button, and context menu entries to open Markdown/MDX pages in VitePress.
+- Adds a command, editor title button, and context menu entries to open Markdown/MDX pages in VitePress.
+- Optional CodeLens action above Markdown/MDX headings (disabled by default, opt in via `vitepressMd.enableCodeLens`).
 - Converts workspace file paths to the matching VitePress route.
 - Supports opening from the selected file in Explorer context menu.
 - Supports configuring the target browser app on macOS.
@@ -39,8 +36,8 @@ You can also install from the command line:
 2. Open a Markdown file in the editor.
 3. Run **Open in VitePress** from the Command Palette.
 4. Or click the **Open in VitePress** editor title button.
-5. Or use the **Open in VitePress** code lens action above any Markdown/MDX heading.
-6. Or right-click a Markdown/MDX file in Explorer and choose **Open in VitePress**.
+5. Or right-click a Markdown/MDX file in Explorer and choose **Open in VitePress**.
+6. Or enable `vitepressMd.enableCodeLens` to show an **Open in VitePress** code lens action above any Markdown/MDX heading.
 
 #### Prerequisites
 
@@ -63,6 +60,8 @@ Run it from:
 - Explorer context menu
 
 ### CodeLens Action
+
+Disabled by default. Enable it by setting `vitepressMd.enableCodeLens` to `true`.
 
 Example:
 
@@ -91,6 +90,9 @@ This extension contributes the following settings:
 - `vitepressMd.vsCodeCompatibleSlug`
   - Default: false
   - Uses a VS Code-compatible GitHub-style slugifier for heading anchors.
+- `vitepressMd.enableCodeLens`
+  - Default: false
+  - Shows an **Open in VitePress** CodeLens action above each Markdown/MDX heading.
 
 ## Development
 
