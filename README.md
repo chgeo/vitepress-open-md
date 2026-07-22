@@ -87,9 +87,9 @@ This extension contributes the following settings:
 - `vitepressMd.browserApp`
   - Default: Google Chrome
   - macOS app name used to open/reuse browser tabs.
-- `vitepressMd.vsCodeCompatibleSlug`
+- `vitepressMd.vsCodeCompatibleSlugs`
   - Default: false
-  - Uses a VS Code-compatible GitHub-style slugifier for heading anchors.
+  - Match VS Code's format for turning headings into links. For example, 'Node.js' links to '#nodejs' instead of the standard '#node-js'.
 - `vitepressMd.enableCodeLens`
   - Default: false
   - Shows an **Open in VitePress** CodeLens action above each Markdown/MDX heading.

@@ -4,7 +4,7 @@
   "displayName": "Open Markdown Document in VitePress",
   "icon": "assets/icon.png",
   "description": "Open the currently active markdown file in the running VitePress dev server.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "keywords": [
     "vitepress",
@@ -86,7 +86,7 @@
         "vitepressMd.vsCodeCompatibleSlugs": {
           "type": "boolean",
           "default": false,
-          "description": "Use a slugifier for URL headings compatible with VS Code's markdown editor. For example, 'Node.js' becomes '#nodejs' instead of standard '#node-js'."
+          "description": "Match VS Code's format for turning headings into links. For example, 'Node.js' links to '#nodejs' instead of the standard '#node-js'."
         },
         "vitepressMd.enableCodeLens": {
           "type": "boolean",

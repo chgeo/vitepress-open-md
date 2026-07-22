@@ -4,6 +4,9 @@ All notable changes to the "VitePress Open MD" extension are documented in this 
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-22
+
+- Added `vitepressMd.vsCodeCompatibleSlugs` setting to match VS Code's format for turning headings into links (for example, 'Node.js' links to '#nodejs' instead of the standard '#node-js').
 - The CodeLens action above Markdown/MDX headings is now opt-in via `vitepressMd.enableCodeLens` (default: `false`).
 
 ## [0.3.0] - 2026-07-20
