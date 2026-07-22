@@ -11,6 +11,7 @@ type VitePressSettings = {
   baseUrl: string;
   rootFolder: string;
   browserApp: string;
+  vsCodeCompatibleSlugs: boolean;
 };
 
 function getVitePressSettings(): VitePressSettings {
@@ -19,6 +20,7 @@ function getVitePressSettings(): VitePressSettings {
     baseUrl: cfg.get<string>('baseUrl') ?? 'http://localhost:5173',
     rootFolder: cfg.get<string>('rootFolder') ?? 'docs',
     browserApp: cfg.get<string>('browserApp') ?? 'Google Chrome',
+    vsCodeCompatibleSlugs: cfg.get<boolean>('vsCodeCompatibleSlugs') ?? false,
   };
 }
 
@@ -115,7 +117,7 @@ export function activate(context: vscode.ExtensionContext) {
         ? parseHeadingLine(doc.lineAt(lineArg).text)
         : getCurrentSectionHeading(doc, cursorLine))
       : null;
-    const anchor = heading ? slugifyHeading(heading.text) : '';
+    const anchor = heading ? slugifyHeading(heading.text, settings.vsCodeCompatibleSlugs) : '';
 
     const url = buildVitePressUrl(resourceUri.fsPath, settings.rootFolder, settings.baseUrl, anchor);
     if (!url) {

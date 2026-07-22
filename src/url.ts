@@ -43,7 +43,19 @@ export function buildVitePressUrl(filePath: string, rootFolder: string, baseUrl:
   return `${baseUrl}${route}${anchor ? `#${encodeURIComponent(anchor)}` : ''}`;
 }
 
-export function slugifyHeading(text: string): string {
+export function slugifyHeadingVsCodeCompatible(text: string): string {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\p{M}\s_-]/gu, '')
+    .replace(/\s/g, '-');
+}
+
+export function slugifyHeading(text: string, useVsCodeCompatibleSlug = false): string {
+  if (useVsCodeCompatibleSlug) {
+    return slugifyHeadingVsCodeCompatible(text);
+  }
+
   // Match explicit markdown IDs like {#my-anchor} or { #my-anchor }.
   const explicitIdMatch = text.match(/\{\s*#([^}\s]+)\s*\}/);
   if (explicitIdMatch) {

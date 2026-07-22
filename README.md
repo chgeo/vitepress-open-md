@@ -88,6 +88,9 @@ This extension contributes the following settings:
 - `vitepressMd.browserApp`
   - Default: Google Chrome
   - macOS app name used to open/reuse browser tabs.
+- `vitepressMd.vsCodeCompatibleSlug`
+  - Default: false
+  - Uses a VS Code-compatible GitHub-style slugifier for heading anchors.
 
 ## Development
 

@@ -82,6 +82,11 @@
           "type": "string",
           "default": "Google Chrome",
           "description": "macOS external browser app for tab reuse. Use Google Chrome, Safari, or another Chrome-family app name."
+        },
+        "vitepressMd.vsCodeCompatibleSlugs": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use a slugifier for URL headings compatible with VS Code's markdown editor. For example, 'Node.js' becomes '#nodejs' instead of standard '#node-js'."
         }
       }
     }

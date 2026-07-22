@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import { expect } from 'chai';
-import { slugifyHeading as slugify  } from './url';
+import { slugifyHeading as slugify, slugifyHeadingVsCodeCompatible } from './url';
 
 describe('slugifyHeading', () => {
   it('trims and lowercases input', () => {
@@ -100,4 +100,18 @@ describe('slugifyHeading', () => {
     expect(slugify('***')).to.equal('');
   });
 
+});
+
+describe('slugifyHeadingVsCodeCompatible', () => {
+  it('matches the VS Code-compatible slugifier behavior', () => {
+    expect(slugifyHeadingVsCodeCompatible('  Hello, Crème Brûlée!  ')).to.equal('hello-crème-brûlée');
+  });
+
+  it('keeps unicode letters and combines whitespace into dashes per-space', () => {
+    expect(slugifyHeadingVsCodeCompatible('Node.js & Java / CAP')).to.equal('nodejs--java--cap');
+  });
+
+  it('is used when slugifyHeading receives compatibility flag', () => {
+    expect(slugify('Foo {#bar}', true)).to.equal('foo-bar');
+  });
 });
